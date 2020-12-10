@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -115,6 +114,7 @@ public class Main {
       e.printStackTrace();
     }
   }
+
   /**
    * Удаляет в файле {@code filePath} формата CSV запись
    * о пользователе с идентификатором {@code id}.
@@ -124,6 +124,7 @@ public class Main {
    * @throws java.util.NoSuchElementException запись о пользователе
    *     с идентификатором {@code id} не существует.
    */
+
   public static void delete(@NotNull String filePath, int id) {
     Map<Integer, String> usersInfo = new HashMap<Integer, String>();
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -135,7 +136,7 @@ public class Main {
       if (!usersInfo.containsKey(id)) {
         throw new NoSuchElementException();
       }
-  } catch (FileNotFoundException e) {
+    } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
