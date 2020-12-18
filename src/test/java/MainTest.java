@@ -15,7 +15,8 @@ import org.junit.jupiter.api.Test;
 
 class MainTest {
 
-  final Path filePath = Paths.get("users.csv");
+  final String fileName = "users.csv";
+  final Path filePath = Paths.get(fileName);
 
   @BeforeEach
   void setUp() throws IOException {
@@ -42,7 +43,7 @@ class MainTest {
       new User(15, "Dawson", "Augusta"),
       new User(25, "Ford", "Joseph", "Nicholas"),
       new User(18, "Lambert", "Edward")
-    ).forEach(user -> Main.create(filePath.toString(), user));
+    ).forEach(user -> Main.create(fileName, user));
 
     assertEquals(
         String.join("\n", List.of(
@@ -62,7 +63,7 @@ class MainTest {
       new User(15, "Dawson", "Augusta"),
       new User(25, "Ford", "Joseph", "Nicholas"),
       new User(18, "Lambert", "Edward")
-    ).forEach(user -> Main.create(filePath.toString(), user));
+    ).forEach(user -> Main.create(fileName, user));
 
     assertEquals(
         String.join("\n", List.of(
@@ -75,7 +76,7 @@ class MainTest {
   }
 
   @Test
-  void read_fileIsNotEmpty_shouldReturnUser() throws IOException {
+  void read_fileIsNotEmpty_userExists_shouldReturnUser() throws IOException {
     Files.write(filePath,
         List.of(
           "1,Murphy,Aileen,Deborah,38",
@@ -86,23 +87,23 @@ class MainTest {
 
     assertEquals(
         new User(12, "Norton", "Robert"),
-        Main.read(filePath.toString(), 4)
+        Main.read(fileName, 4)
     );
   }
 
   @Test
-  void read_fileIsNotEmpty_shouldReturnNull() throws IOException {
+  void read_fileIsNotEmpty_userNotExists_shouldReturnNull() throws IOException {
     Files.write(filePath, List.of("1,Murphy,Aileen,Deborah,38"), StandardCharsets.UTF_8);
-    assertNull(Main.read(filePath.toString(), 10));
+    assertNull(Main.read(fileName, 10));
   }
 
   @Test
   void read_fileIsEmpty_shouldReturnNull() {
-    assertNull(Main.read(filePath.toString(), 10));
+    assertNull(Main.read(fileName, 10));
   }
 
   @Test
-  void update_fileIsNotEmpty_shouldSucceed() throws IOException {
+  void update_fileIsNotEmpty_userExists_shouldSucceed() throws IOException {
     Files.write(filePath,
         List.of(
           "1,Murphy,Aileen,Deborah,38",
@@ -111,7 +112,7 @@ class MainTest {
         StandardCharsets.UTF_8
     );
 
-    Main.update(filePath.toString(), 4,
+    Main.update(fileName, 4,
         new User(25, "Ford", "Joseph", "Nicholas"));
 
     assertEquals(
@@ -124,7 +125,7 @@ class MainTest {
   }
 
   @Test
-  void update_fileIsNotEmpty_shouldThrowNoSuchElementException() throws IOException {
+  void update_fileIsNotEmpty_userNotExists_shouldThrowNoSuchElementException() throws IOException {
     Files.write(filePath,
         List.of(
           "1,Murphy,Aileen,Deborah,38",
@@ -133,18 +134,18 @@ class MainTest {
         StandardCharsets.UTF_8
     );
 
-    assertThrows(NoSuchElementException.class, () -> Main.update(filePath.toString(), 10,
+    assertThrows(NoSuchElementException.class, () -> Main.update(fileName, 10,
         new User(12, "Norton", "Robert")));
   }
 
   @Test
-  void update_fileIsEmpty_shouldThrowNoSuchElementException() {
-    assertThrows(NoSuchElementException.class, () -> Main.update(filePath.toString(), 10,
+  void update_fileIsEmpty_userNotExists_shouldThrowNoSuchElementException() {
+    assertThrows(NoSuchElementException.class, () -> Main.update(fileName, 10,
         new User(12, "Norton", "Robert")));
   }
 
   @Test
-  void delete_fileIsNotEmpty_shouldSucceed() throws IOException {
+  void delete_fileIsNotEmpty_userExists_shouldSucceed() throws IOException {
     Files.write(filePath,
         List.of(
           "1,Murphy,Aileen,Deborah,38",
@@ -153,7 +154,7 @@ class MainTest {
         StandardCharsets.UTF_8
     );
 
-    Main.delete(filePath.toString(), 1);
+    Main.delete(fileName, 1);
 
     assertEquals(
         "4,Norton,Robert,\"\",12",
@@ -162,7 +163,7 @@ class MainTest {
   }
 
   @Test
-  void delete_fileIsNotEmpty_shouldThrowNoSuchElementException() throws IOException {
+  void delete_fileIsNotEmpty_userNotExists_shouldThrowNoSuchElementException() throws IOException {
     Files.write(filePath,
         List.of(
           "1,Murphy,Aileen,Deborah,38",
@@ -171,11 +172,11 @@ class MainTest {
         StandardCharsets.UTF_8
     );
 
-    assertThrows(NoSuchElementException.class, () -> Main.delete(filePath.toString(), 10));
+    assertThrows(NoSuchElementException.class, () -> Main.delete(fileName, 10));
   }
 
   @Test
-  void delete_fileIsEmpty_shouldThrowNoSuchElementException() {
-    assertThrows(NoSuchElementException.class, () -> Main.delete(filePath.toString(), 10));
+  void delete_fileIsEmpty_userNotExists_shouldThrowNoSuchElementException() {
+    assertThrows(NoSuchElementException.class, () -> Main.delete(fileName, 10));
   }
 }
