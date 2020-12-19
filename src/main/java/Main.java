@@ -29,9 +29,10 @@ public class Main {
         if (id == Integer.parseInt(userArr[0])) {
           id++;
         }
-        usersInfo.put(id, (user.secondName + "," + user.firstName + ","
-                + (user.middleName != null ? user.middleName : "\"\"") + "," + user.age));
       }
+      usersInfo.put(id,
+                user.secondName + "," + user.firstName + ","
+                + (user.middleName != null ? user.middleName : "\"\"") + "," + user.age);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
@@ -99,8 +100,9 @@ public class Main {
       if (!usersInfo.containsKey(id)) {
         throw new NoSuchElementException();
       }
-      usersInfo.put(id, (user.secondName + "," + user.firstName + ","
-                    + (user.middleName != null ? user.middleName : "\"\"") + "," + user.age));
+      usersInfo.put(id,
+              user.secondName + "," + user.firstName + ","
+                    + (user.middleName != null ? user.middleName : "\"\"") + "," + user.age);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     } catch (IOException e) {
