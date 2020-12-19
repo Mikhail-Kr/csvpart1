@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -19,7 +18,7 @@ public class Main {
    * @param user пользователь.
    */
   public static void create(@NotNull String filePath, @NotNull User user) {
-    Map<Integer, String> usersInfo = new HashMap<Integer, String>();
+    Map<Integer, String> usersInfo = new HashMap<>();
     int id = 1;
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
       String users;
@@ -33,8 +32,6 @@ public class Main {
       usersInfo.put(id,
                 user.secondName + "," + user.firstName + ","
                 + (user.middleName != null ? user.middleName : "\"\"") + "," + user.age);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -65,15 +62,12 @@ public class Main {
           return new User(Integer.parseInt(usersArr[4]),
                usersArr[1],
                usersArr[2],
-               (usersArr[3] == "\"\"" ? usersArr[3] : null));
+               usersArr[3].equals("\"\"") ? null : usersArr[3]);
         }
       }
       return null;
-    } catch (FileNotFoundException fileNotFoundException) {
+    } catch (IOException fileNotFoundException) {
       fileNotFoundException.printStackTrace();
-      return null;
-    } catch (IOException ioException) {
-      ioException.printStackTrace();
       return null;
     }
   }
@@ -90,7 +84,7 @@ public class Main {
    *     с идентификатором {@code id} не существует.
    */
   public static void update(@NotNull String filePath, int id, @NotNull User user) {
-    Map<Integer, String> usersInfo = new HashMap<Integer, String>();
+    Map<Integer, String> usersInfo = new HashMap<>();
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
       String users;
       while ((users = br.readLine()) != null) {
@@ -103,8 +97,6 @@ public class Main {
       usersInfo.put(id,
               user.secondName + "," + user.firstName + ","
                     + (user.middleName != null ? user.middleName : "\"\"") + "," + user.age);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -128,7 +120,7 @@ public class Main {
    */
 
   public static void delete(@NotNull String filePath, int id) {
-    Map<Integer, String> usersInfo = new HashMap<Integer, String>();
+    Map<Integer, String> usersInfo = new HashMap<>();
     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
       String users;
       while ((users = br.readLine()) != null) {
@@ -138,8 +130,6 @@ public class Main {
       if (!usersInfo.containsKey(id)) {
         throw new NoSuchElementException();
       }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     }
